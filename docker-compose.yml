@@ -13,7 +13,15 @@ services:
       - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
       - ./seeder.sql:/docker-entrypoint-initdb.d/02-seeder.sql:ro
 
-  lang:
+  r:
+    image: r-base:4.5.0
+    container_name: legacy_r
+    volumes:
+      - ./legacy.r:/app/legacy.r
+    working_dir: /app
+    command: Rscript legacy.r
+    depends_on:
+      - db
 
 volumes:
   postgres_data:
